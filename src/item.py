@@ -28,6 +28,12 @@ class Item:
 
         Item.all.append(self)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self) -> str:
+        return self.__name
+
     @property
     def name(self) -> str:
         """
@@ -44,10 +50,7 @@ class Item:
         if len(new_name) <= 10:
             self.__name = new_name
         else:
-            try:
-                raise
-            except Exception:
-                print(f'Exception: Длина наименования товара "{new_name}" превышает 10 символов')
+            raise Exception(f'Длина наименования товара "{new_name}" превышает 10 символов')
 
     def calculate_total_price(self) -> float:
         """
