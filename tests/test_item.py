@@ -7,24 +7,27 @@ def item_fixture():
     return Item("Смартфон", 10000, 20)
 
 
-@pytest.fixture
-def item_fixture_2():
-    return Item("Телефон", 10000, 5)
-
-
 def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
 
 
-def test_adding_name(item_fixture_2):
-    item_fixture_2.name = "Смартфон"
-    assert item_fixture_2.name == "Смартфон"
+def test___repr__(item_fixture):
+    assert repr(item_fixture) == "Item('Смартфон', 10000, 20)"
 
 
-def test_adding_name_2(item_fixture_2):
-    item_fixture_2.name = "СуперСмартфон"
-    assert item_fixture_2.name == "Телефон"
+def test___str__(item_fixture):
+    assert str(item_fixture) == 'Смартфон'
+
+
+def test_adding_name(item_fixture):
+    item_fixture.name = "Телефон"
+    assert item_fixture.name == "Телефон"
+
+
+def test_exception(item_fixture):
+    with pytest.raises(Exception):
+        item_fixture.name = "СуперСмартфон"
 
 
 def test_calculate_total_price(item_fixture):
