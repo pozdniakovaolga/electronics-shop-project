@@ -40,6 +40,15 @@ class Item:
         """
         return self.__name
 
+    def __add__(self, other):
+        """
+        Реализует возможность сложения экземпляров класса по количеству товара в магазине
+        """
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise TypeError('Недопустимо сложение экземпляров классов Phone или Item с экземплярами не Phone или Item')
+
     @property
     def name(self) -> str:
         """
