@@ -20,12 +20,21 @@ def test___str__(item_fixture):
     assert str(item_fixture) == 'Смартфон'
 
 
+def test___add__(item_fixture):
+    assert item_fixture + item_fixture == 40
+
+
+def test___add__typeerror(item_fixture):
+    with pytest.raises(TypeError):
+        item_fixture + 10
+
+
 def test_adding_name(item_fixture):
     item_fixture.name = "Телефон"
     assert item_fixture.name == "Телефон"
 
 
-def test_exception(item_fixture):
+def test__adding_name_exception(item_fixture):
     with pytest.raises(Exception):
         item_fixture.name = "СуперСмартфон"
 
