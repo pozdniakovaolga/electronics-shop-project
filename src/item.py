@@ -1,6 +1,8 @@
 # Вызываем импорты
 import csv
 import os
+from src.icsverror_class import InstantiateCSVError
+
 
 # Определяем путь к файлу данных в переменную
 path_to_src = os.path.abspath("../src/")
@@ -84,18 +86,25 @@ class Item:
         return None
 
     @classmethod
-    def instantiate_from_csv(cls) -> None:
+    def instantiate_from_csv(cls, path=path_to_file) -> None:
         """
         Инициализирует экземпляры класса Item данными из файла src/items.csv
         """
-        with open(path_to_file, encoding="windows-1251") as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=',')
-
-            for row in reader:
-                name = str(row['name'])
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                cls(name, price, quantity)
+        if not os.path.isfile(path):
+            raise FileNotFoundError("Отсутствует файл items.csv")
+        else:
+            with open(path, encoding="windows-1251") as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=',')
+                for row in reader:
+                    if row['price'] is None or row['price'] == '':
+                        raise InstantiateCSVError("Файл items.csv поврежден")
+                    elif row['quantity'] is None or row['quantity'] == '':
+                        raise InstantiateCSVError("Файл items.csv поврежден")
+                    else:
+                        name = str(row['name'])
+                        price = float(row['price'])
+                        quantity = int(row['quantity'])
+                        cls(name, price, quantity)
 
     @staticmethod
     def string_to_number(str_number: str) -> int:

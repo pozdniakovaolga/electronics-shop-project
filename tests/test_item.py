@@ -1,5 +1,7 @@
 import pytest
 from src.item import Item
+import os
+from src.icsverror_class import InstantiateCSVError
 
 
 @pytest.fixture
@@ -10,6 +12,21 @@ def item_fixture():
 def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
+
+
+def test_instantiate_from_csv_not_file():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv(os.path.join(os.path.abspath("../src/"), "no_exist.csv"))
+
+
+def test_instantiate_from_csv_broken_file():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(os.path.join(os.path.abspath("../src/"), "items_broken.csv"))
+
+
+def test_instantiate_from_csv_broken_file_2():
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(os.path.join(os.path.abspath("../src/"), "items_broken2.csv"))
 
 
 def test___repr__(item_fixture):
